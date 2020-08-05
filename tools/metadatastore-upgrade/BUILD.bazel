@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/kubeflow/pipelines/tools/metadatastore-upgrade",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@io_k8s_apimachinery//pkg/apis/meta/v1:go_default_library",
+        "@io_k8s_client_go//kubernetes:go_default_library",
+        "@io_k8s_client_go//kubernetes/typed/apps/v1:go_default_library",
+        "@io_k8s_client_go//plugin/pkg/client/auth/gcp:go_default_library",
+        "@io_k8s_client_go//tools/clientcmd:go_default_library",
+        "@io_k8s_client_go//util/homedir:go_default_library",
+        "@io_k8s_client_go//util/retry:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "metadatastore-upgrade",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)
